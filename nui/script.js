@@ -21,15 +21,17 @@ window.addEventListener('message', (event) => {
   }
 })
 function addPeriods(str) {
+  let reversedStr = str.split('').reverse().join('');
   let result = "";
-  for (let i = 0; i < str.length; i++) {
-    result += str[i];
-    if ((i + 1) % 3 === 0 && i !== str.length - 1) {
+  for (let i = 0; i < reversedStr.length; i++) {
+    result += reversedStr[i];
+    if ((i + 1) % 3 === 0 && i !== reversedStr.length - 1) {
       result += ".";
     }
   }
-  return result;
+  return result.split('').reverse().join('');
 }
+
 // This event listener gets the player's wallet balance, and updates the UI.
 window.addEventListener('message', (event) => {
   const data = event.data;
@@ -41,15 +43,6 @@ window.addEventListener('message', (event) => {
       document.getElementById('player-wallet').textContent = addPeriods(data.wallet.toString());
     }
     document.getElementById('currency-sign').textContent = data.currencySymbol;
-  }
-
-  if (data.type === 'ping') {
-    axios.post(`https://${GetParentResourceName()}/pong`, {
-      foo: 'bar',
-
-    }).then((response) => {
-      console.log(JSON.stringify(response.data));
-    });
   }
 })
 
