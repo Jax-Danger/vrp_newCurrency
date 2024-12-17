@@ -1,59 +1,56 @@
--- This updates the player's position and heading every 500ms
-CreateThread(function()
-  while true do
-    Wait(100)
+--##########    VRP Main    ##########--
+--init vRP client context
+Tunnel = module("vrp", "lib/Tunnel")
+Proxy = module("vrp", "lib/Proxy")
 
-    local playerId        = PlayerPedId()
-    local playerCoords    = GetEntityCoords(playerId)
-    local playerheading   = GetEntityHeading(playerId)
+local cvRP = module("vrp", "client/vRP")
+vRP = cvRP()
 
-    SendNUIMessage({
-      type    = 'position',
-      x       = playerCoords.x,
-      y       = playerCoords.y,
-      z       = playerCoords.z,
-      heading = playerheading
-    })
-  end
-end)
+local pvRP = {}
 
--- CreateThread(function()
---   while true do
---     Wait(1000)
---     SendNUIMessage({    type ='ping',  })
---   end
--- end)
+--load script in vRP context
+pvRP.loadScript = module
+Proxy.addInterface("vRP", pvRP)
 
+local NUILib = class("NUILib", vRP.Extension)     -- Class Name, Can be changed to anything (match with server class name to make things easier
+local cfg = module("vrp_NUILib", "cfg/cfg")
 
---
--- Nui Callbacks
---
+function NUILib:__construct()   --Change NUILib to match Class Name
+  vRP.Extension.__construct(self)
 
--- RegisterNUICallback('pong', function(data, cb)
---   print('Got pong, foo value is', data.foo)
+  CreateThread(function()
+    while true do
+      Wait(500)
 
---   cb({acceptedPong = true })
--- end)
+      local wallet = self.remote.getWallet()
+      SendNUIMessage({
+        type   = 'updateWallet',
+        wallet = wallet,
+        currencySymbol = cfg.currencySymbol,
+        useCommas = cfg.useCommas
+      })
 
-RegisterNUICallback('releaseFocus', function(data, cb)
-  cb({})
+    end
+  end)
 
-  SetNuiFocus(false, false)
-end)
+  -- This updates the player's position and heading every 250ms/ quarter second
+  CreateThread(function()
+    while true do
+      Wait(250)
 
-RegisterNUICallback('teleport', function(data, cb)
-  print('Teleporting to', data.x, data.y, data.z)
-  SetEntityCoords(PlayerPedId(), data.x, data.y, data.z)
+      local playerId        = PlayerPedId()
+      local playerCoords    = GetEntityCoords(playerId)
+      local playerheading   = GetEntityHeading(playerId)
 
-  cb({})
-end)
+      SendNUIMessage({
+        type    = 'position',
+        x       = playerCoords.x,
+        y       = playerCoords.y,
+        z       = playerCoords.z,
+        heading = playerheading
+      })
+    end
+  end)
+end
 
---
--- Keybinding
---
-RegisterCommand("+openteleporter", function()
-  --SendNUIMessage({ type = 'openteleporter' })
-  SetNuiFocus(true, true)
-end, false)
-
-RegisterKeyMapping('+openteleporter', 'Open Teleporter', 'keyboard', 'F2')
+vRP:registerExtension(NUILib)

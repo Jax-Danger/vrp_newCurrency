@@ -1,4 +1,6 @@
 // This receieves data from the client, and updates it in the UI.
+
+// This event listener gets the location and heading of the player, and updates the UI.
 window.addEventListener('message', (event) => {
   const data = event.data;
 
@@ -18,20 +20,49 @@ window.addEventListener('message', (event) => {
     });
   }
 })
+function addPeriods(str) {
+  let result = "";
+  for (let i = 0; i < str.length; i++) {
+    result += str[i];
+    if ((i + 1) % 3 === 0 && i !== str.length - 1) {
+      result += ".";
+    }
+  }
+  return result;
+}
+// This event listener gets the player's wallet balance, and updates the UI.
+window.addEventListener('message', (event) => {
+  const data = event.data;
+
+  if (data.type === 'updateWallet') {
+    if (data.useCommas) {
+      document.getElementById('player-wallet').textContent = data.wallet.toLocaleString();
+    } else {
+      document.getElementById('player-wallet').textContent = addPeriods(data.wallet.toString());
+    }
+    document.getElementById('currency-sign').textContent = data.currencySymbol;
+  }
+
+  if (data.type === 'ping') {
+    axios.post(`https://${GetParentResourceName()}/pong`, {
+      foo: 'bar',
+
+    }).then((response) => {
+      console.log(JSON.stringify(response.data));
+    });
+  }
+})
 
 // This ensures the NUI can send data back to the client.
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('destination-cancel').addEventListener('click', () => {
-    axios.post(`https://${GetParentResourceName()}/releaseFocus`, {})
-  })
 
-  document.getElementById('destination-submit').addEventListener('click', () => {
-    axios.post(`https://${GetParentResourceName()}/teleport`, {
-      x: document.getElementById('destination-x').value,
-      y: document.getElementById('destination-y').value,
-      z: document.getElementById('destination-z').value,
-    })
+// document.addEventListener('DOMContentLoaded', () => {
+// This is example code for sending data to the client. Copy and paste to make more.
 
-  })
-}, false);
+//document.getElementById('destination-cancel').addEventListener('click', () => {
+// Remember to create the NUI callback in client.lua that matches the part after "}/" in the URL.
+// Example: The NUI callback for the below code should be named "test".
 
+//axios.post(`https://${GetParentResourceName()}/test`, {})
+//})
+
+// }, false);
