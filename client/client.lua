@@ -33,25 +33,7 @@ function NUILib:__construct()   --Change NUILib to match Class Name
 
     end
   end)
-
-  -- This updates the player's position and heading every 250ms/ quarter second
-  CreateThread(function()
-    while true do
-      Wait(250)
-
-      local playerId        = PlayerPedId()
-      local playerCoords    = GetEntityCoords(playerId)
-      local playerheading   = GetEntityHeading(playerId)
-
-      SendNUIMessage({
-        type    = 'position',
-        x       = playerCoords.x,
-        y       = playerCoords.y,
-        z       = playerCoords.z,
-        heading = playerheading
-      })
-    end
-  end)
 end
+
 
 vRP:registerExtension(NUILib)
