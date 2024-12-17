@@ -1,18 +1,18 @@
-local NUILib = class("NUILib", vRP.Extension)                    -- Class Name, Can be changed to anything
+local newCurrency = class("newCurrency", vRP.Extension)                    -- Class Name, Can be changed to anything
 
-function NUILib:__construct()                                  -- Change NUILib to match Class Name
+function newCurrency:__construct()                                  -- Change newCurrency to match Class Name
   vRP.Extension.__construct(self)
 end
 
-function NUILib:getWallet()
+function newCurrency:getWallet()
   local user    = vRP.users_by_source[source]
   if not user then return 0 end
   local wallet  = user:getWallet()
   return wallet
 end
 
-NUILib.tunnel           = {}
-NUILib.tunnel.getWallet = NUILib.getWallet
+newCurrency.tunnel           = {}
+newCurrency.tunnel.getWallet = newCurrency.getWallet
 
 
-vRP:registerExtension(NUILib)
+vRP:registerExtension(newCurrency)

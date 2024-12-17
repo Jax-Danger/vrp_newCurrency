@@ -12,10 +12,10 @@ local pvRP = {}
 pvRP.loadScript = module
 Proxy.addInterface("vRP", pvRP)
 
-local NUILib = class("NUILib", vRP.Extension)     -- Class Name, Can be changed to anything (match with server class name to make things easier
-local cfg = module("vrp_NUILib", "cfg/cfg")
+local newCurrency = class("newCurrency", vRP.Extension)     -- Class Name, Can be changed to anything (match with server class name to make things easier
+local cfg = module("vrp_newCurrency", "cfg/cfg")
 
-function NUILib:__construct()   --Change NUILib to match Class Name
+function newCurrency:__construct()   --Change newCurrency to match Class Name
   vRP.Extension.__construct(self)
 
   CreateThread(function()
@@ -23,7 +23,7 @@ function NUILib:__construct()   --Change NUILib to match Class Name
       Wait(500)
 
       local wallet = self.remote.getWallet()
-      print('wallet',wallet)
+      --print('wallet',wallet)
       SendNUIMessage({
         type   = 'updateWallet',
         wallet = wallet,
@@ -36,4 +36,4 @@ function NUILib:__construct()   --Change NUILib to match Class Name
 end
 
 
-vRP:registerExtension(NUILib)
+vRP:registerExtension(newCurrency)
