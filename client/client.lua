@@ -23,6 +23,7 @@ function NUILib:__construct()   --Change NUILib to match Class Name
       Wait(500)
 
       local wallet = self.remote.getWallet()
+      print('wallet',wallet)
       SendNUIMessage({
         type   = 'updateWallet',
         wallet = wallet,

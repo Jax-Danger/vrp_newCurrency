@@ -6,6 +6,7 @@ end
 
 function NUILib:getWallet()
   local user    = vRP.users_by_source[source]
+  if not user then return 0 end
   local wallet  = user:getWallet()
   return wallet
 end
