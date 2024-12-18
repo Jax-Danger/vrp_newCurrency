@@ -21,4 +21,5 @@ files{
   'nui/nui.html',
   'nui/script.js',
   'nui/style.css',
+  'nui/fonts/*',
 }

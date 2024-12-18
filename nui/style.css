@@ -1,10 +1,17 @@
+@font-face {
+  font-family: 'pricedown';
+  /* Name your font family */
+  src: url('./fonts/pricedownbl.ttf');
+  /* Locate the .ttf file within your directory*/
+}
+
 #location {
   /*Using "#" means that the class is an id.*/
   background: rgba(0, 0, 0, 0.5);
   padding: 10px;
   color: white;
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: 'pricedown';
   width: 300px;
 
   position: absolute;
@@ -18,7 +25,6 @@
   margin-left: auto;
   margin-top: 80px;
   margin-right: 10px;
-  font-size: 26px;
   white-space: nowrap;
   direction: rtl;
   text-shadow: 8px 8px 8px rgba(0, 0, 0, 255);
@@ -26,11 +32,14 @@
 
 #player-wallet {
   color: white;
-  font-family: sans-serif;
-  font-size: 20px;
+  font-family: 'pricedown';
+  font-size: 28px;
+  text-shadow: -2.5px -2.5px 0 #000, 2.5px -2.5px 0 #000, -2.5px 2.5px 0 #000, 2.5px 2.5px 0 #000;
 }
 
 #currency-sign {
-  font-size: 22px;
-  color: green
+  font-size: 30px;
+  color: green;
+  font-weight: bolder;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
 }
