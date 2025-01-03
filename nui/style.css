@@ -41,5 +41,6 @@
   font-size: 30px;
   color: green;
   font-weight: bolder;
+  font-family: "pricedown";
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
